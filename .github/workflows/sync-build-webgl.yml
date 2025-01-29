@@ -1,0 +1,49 @@
+name: Sync Build Directory
+
+on:
+  workflow_dispatch:  # Manual trigger
+  schedule:
+    - cron: '0 0 * * *'  # Daily sync (optional)
+  push:  # Auto-sync when pushing to main (optional)
+    branches:
+      - main
+
+jobs:
+  sync-build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout current repo
+      uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+
+    - name: Checkout source repo
+      uses: actions/checkout@v4
+      with:
+        repository: WeroCreative/InnerAlliance.git  # Replace with source repo
+        token: ${{ secrets.SOURCE_REPO_TOKEN }}  # PAT with repo access
+        path: source-repo-tmp
+
+    - name: Sync Build directory
+      run: |
+        # Remove existing Build directory
+        rm -rf Build
+        
+        # Copy from source repo
+        cp -a Build .
+        
+        # Alternative: Use rsync for better control
+        # rsync -a --delete source-repo-tmp/Build/ Build/
+
+    - name: Commit changes
+      run: |
+        git config --global user.name "hylu-dev"
+        git config --global user.email "roylu99@gmail.com"
+        
+        git add -A
+        if ! git diff --quiet --exit-code; then
+          git commit -m "chore: Update Build directory from source repo"
+          git push
+        else
+          echo "No changes to commit"
+        fi
