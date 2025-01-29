@@ -22,7 +22,7 @@ jobs:
       with:
         repository: WeroCreative/InnerAlliance.git  # Replace with source repo
         token: ${{ secrets.SOURCE_REPO_TOKEN }}  # PAT with repo access
-        path: source-repo-tmp
+        path: .
 
     - name: Sync Build directory
       run: |
