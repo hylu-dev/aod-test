@@ -2,8 +2,8 @@ name: Sync Build Directory
 
 on:
   workflow_dispatch:  # Manual trigger
-  schedule:
-    - cron: '0 0 * * *'  # Daily sync (optional)
+  #schedule:
+  #  - cron: '0 0 * * *'  # Daily sync (optional)
   push:  # Auto-sync when pushing to main (optional)
     branches:
       - main
