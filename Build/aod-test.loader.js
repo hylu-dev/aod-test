@@ -54,7 +54,7 @@ function createUnityInstance(canvas, config, onProgress) {
       preserveDrawingBuffer: false,
       powerPreference: 2,
     },
-    wasmFileSize: 55668599,
+    wasmFileSize: 55814203,
     cacheControl: function (url) {
       return (url == Module.dataUrl || url.match(/\.bundle/)) ? "must-revalidate" : "no-store";
     },
@@ -1280,6 +1280,7 @@ Module.UnityCache = function () {
       });
   }
 
+
   function downloadFramework() {
       return new Promise(function (resolve, reject) {
         var script = document.createElement("script");
@@ -1344,6 +1345,7 @@ Module.UnityCache = function () {
 
   function loadBuild() {
     var codeDownloadTimeStartup = performance.now();
+
     downloadFramework().then(function (unityFramework) {
       Module.webAssemblyTimeStart = performance.now();
       unityFramework(Module);
